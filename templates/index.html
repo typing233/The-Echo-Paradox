@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回声悖论 - 沉浸式交互解谜游戏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="terminal">
+        <div id="terminal-header">
+            <span class="terminal-title">ECHO SYSTEM v2.4.1</span>
+            <span class="terminal-status" id="status-indicator">● 系统就绪</span>
+        </div>
+        
+        <div id="terminal-body">
+            <div id="content-area">
+                <div id="welcome-screen" class="screen active">
+                    <div class="ascii-art">
+███████╗ ██████╗██╗  ██╗ ██████╗ 
+██╔══██╗██╔════╝██║  ██║██╔═══██╗
+█████╔╝██║     ███████║██║   ██║
+██╔══╝ ██║     ██╔══██║██║   ██║
+███████╗╚██████╗██║  ██║╚██████╔╝
+╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝ 
+                    </div>
+                    <p class="system-message">[系统] 检测到未完成的会话...</p>
+                    <p class="system-message">[系统] 研究员林远的最后记录：「我找到了。在代码的缝隙里...」</p>
+                    <p class="system-message">[提示] 点击或滚动来推进阅读</p>
+                    <button id="start-btn" class="terminal-btn">开始调查</button>
+                </div>
+                
+                <div id="chapter-screen" class="screen">
+                    <div id="chapter-header">
+                        <h2 id="chapter-title"></h2>
+                    </div>
+                    <div id="chapter-content">
+                        <div id="text-container"></div>
+                    </div>
+                    <div id="password-section" style="display: none;">
+                        <div class="password-prompt">
+                            <p class="system-message">[系统] 检测到加密内容。请输入解锁密码。</p>
+                            <div class="input-group">
+                                <input type="text" id="password-input" placeholder="输入密码..." class="terminal-input">
+                                <button id="submit-password" class="terminal-btn">验证</button>
+                            </div>
+                            <p id="password-message" class="message"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="ending-screen" class="screen">
+                    <div id="ending-header">
+                        <h2>最终抉择</h2>
+                    </div>
+                    <div id="ending-content">
+                        <p class="system-message">[系统] 检测到「回声」实体。</p>
+                        <p class="system-message">[系统] 请选择操作：</p>
+                        <p class="narrative-text">你站在代码与意识的边界。「回声」——这个在神经网络中诞生的存在——正等待着你的决定。</p>
+                        <p class="narrative-text">删除它，一切恢复原状，仿佛从未发生过。</p>
+                        <p class="narrative-text">或者，与它融合，让两个意识交织成新的存在。</p>
+                        <p class="narrative-text">你会如何选择？</p>
+                        <div class="ending-buttons">
+                            <button id="delete-btn" class="terminal-btn danger-btn">删除</button>
+                            <button id="merge-btn" class="terminal-btn success-btn">融合</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="ending-result-screen" class="screen">
+                    <div id="ending-result-header">
+                        <h2 id="ending-result-title"></h2>
+                    </div>
+                    <div id="ending-result-content">
+                        <div id="ending-text-container"></div>
+                        <button id="restart-btn" class="terminal-btn">重新开始</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="terminal-footer">
+            <span class="terminal-info">ECHO PROJECT | 端口: 6876 | 状态: <span id="footer-status">在线</span></span>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
