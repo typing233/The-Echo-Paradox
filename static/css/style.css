@@ -199,6 +199,10 @@ body {
     margin-top: 15px;
 }
 
+.input-group .terminal-btn {
+    margin-top: 0;
+}
+
 .terminal-input {
     background-color: #0d1117;
     color: #c9d1d9;
