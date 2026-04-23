@@ -291,7 +291,6 @@ class EchoGame {
     }
     
     setupDecryptionPanel(puzzle) {
-        document.getElementById('decryption-panel').style.display = 'block';
         document.getElementById('encrypted-text-display').textContent = puzzle.encrypted;
         document.getElementById('decrypt-hint').textContent = puzzle.hint;
         this.decryptionPuzzle = puzzle;
@@ -395,10 +394,9 @@ class EchoGame {
     }
     
     submitDecryptedResult() {
-        this.showMessage('password-message', '解密验证通过！请继续阅读剩余内容...', 'success');
+        this.showMessage('password-message', '解密验证通过！请输入密码解锁下一章节...', 'success');
         document.getElementById('decryption-panel').style.display = 'none';
-        this.currentContentIndex--;
-        this.displayNextContent();
+        this.showPasswordSection();
     }
     
     setupShatterSequence() {
