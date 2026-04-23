@@ -50,7 +50,7 @@ def vigenere_encrypt(text, key):
             result.append(char)
     return ''.join(result)
 
-ENCRYPTED_PASSWORD_CH2 = atbash_encrypt("GSRH")
+ENCRYPTED_PASSWORD_CH2 = atbash_encrypt("HERE")
 
 chapters_data = {
     "chapter1": {
