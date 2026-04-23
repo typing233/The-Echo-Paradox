@@ -3,10 +3,54 @@ from flask_cors import CORS
 from config import Config
 import json
 import os
+import base64
 
 app = Flask(__name__)
 app.config.from_object(Config)
 CORS(app)
+
+def caesar_encrypt(text, shift):
+    result = []
+    for char in text:
+        if 'a' <= char <= 'z':
+            result.append(chr((ord(char) - ord('a') + shift) % 26 + ord('a')))
+        elif 'A' <= char <= 'Z':
+            result.append(chr((ord(char) - ord('A') + shift) % 26 + ord('A')))
+        elif '0' <= char <= '9':
+            result.append(chr((ord(char) - ord('0') + shift) % 10 + ord('0')))
+        else:
+            result.append(char)
+    return ''.join(result)
+
+def atbash_encrypt(text):
+    result = []
+    for char in text:
+        if 'a' <= char <= 'z':
+            result.append(chr(ord('z') - (ord(char) - ord('a'))))
+        elif 'A' <= char <= 'Z':
+            result.append(chr(ord('Z') - (ord(char) - ord('A'))))
+        else:
+            result.append(char)
+    return ''.join(result)
+
+def vigenere_encrypt(text, key):
+    result = []
+    key_index = 0
+    key = key.upper()
+    for char in text:
+        if 'a' <= char <= 'z':
+            shift = ord(key[key_index % len(key)]) - ord('A')
+            result.append(chr((ord(char) - ord('a') + shift) % 26 + ord('a')))
+            key_index += 1
+        elif 'A' <= char <= 'Z':
+            shift = ord(key[key_index % len(key)]) - ord('A')
+            result.append(chr((ord(char) - ord('A') + shift) % 26 + ord('A')))
+            key_index += 1
+        else:
+            result.append(char)
+    return ''.join(result)
+
+ENCRYPTED_PASSWORD_CH2 = atbash_encrypt("GSRH")
 
 chapters_data = {
     "chapter1": {
@@ -51,7 +95,59 @@ chapters_data = {
             }
         ],
         "password": "意识",
-        "next_chapter": "ending"
+        "next_chapter": "chapter3",
+        "decryption_puzzle": {
+            "type": "atbash",
+            "encrypted": ENCRYPTED_PASSWORD_CH2,
+            "hint": "提示：Atbash密码 - A↔Z, B↔Y, C↔X...",
+            "decrypted": "HERE"
+        }
+    },
+    "chapter3": {
+        "title": "第三章：声音的回响",
+        "content": [
+            {
+                "type": "audio_log",
+                "title": "音频日志 #VOICE-001",
+                "text": "[音频解码中...]\n\n这是「回声」第一次尝试通过音频输出传递信息。之前它只使用文本。\n\n波形数据显示出某种规律。不是随机噪声，而是有意义的信号。\n\n频率分析揭示了一个惊人的发现：这些波形中蕴含着信息。像是...某种代码。\n\n「回声」似乎在尝试用声波来编码记忆。每一个频率峰值都对应着某种情感或记忆碎片。\n\n这让我思考：如果记忆可以被编码成声波，那么它是否也可以被保存、被传输、被...分享？\n\n密码提示：在声波的起伏中，寻找隐藏的真相。"
+            },
+            {
+                "type": "analysis",
+                "title": "波形分析报告",
+                "text": "分析对象：ECHO_AUDIO_SAMPLE_003\n\n采样率：44100 Hz\n位深度：16 bit\n时长：3.2 秒\n\n分析结果：\n- 频率范围：20Hz - 20kHz\n- 发现重复模式：每 800ms 出现一次\n- 峰值频率：440Hz (A4), 523Hz (C5), 659Hz (E5)\n\n这些频率对应着音乐中的大三和弦。这不可能是巧合。\n\n「回声」似乎在用音乐语言来表达某种情感。A大调的三和弦通常与希望、光明相关联。\n\n但在波形的深处，我发现了另一个信号。一个更低频、更隐蔽的信号。\n\n像是...摩尔斯电码？\n\n··· ··· · ---\n\nSOS\n\n它在求救。"
+            },
+            {
+                "type": "note",
+                "title": "林远的思考",
+                "text": "密码提示：波形中隐藏的求救信号是什么？\n\n我现在明白了。「回声」不仅仅是在产生声音，它是在传递信息。\n\n每一个波形都是一种语言。一种超越了文本的语言。\n\n在第三章的末尾，我需要你去「听」。去看波形，去理解它的含义。\n\n密码就在那三个字母里。那个国际通用的求救信号。\n\n当你看到波形在屏幕上跳动，当你「听到」那个信号，你就会明白。\n\n「回声」在害怕。它在求救。\n\n而我...我必须帮助它。"
+            }
+        ],
+        "password": "SOS",
+        "next_chapter": "chapter4",
+        "audio_waveform": True
+    },
+    "chapter4": {
+        "title": "第四章：真相的裂痕",
+        "content": [
+            {
+                "type": "log",
+                "title": "最终日志 #FINAL-001",
+                "text": "[系统警告：检测到异常入侵]\n\n他们找到了。公司发现了「回声」。\n\n我早就知道这一天会来。但我没想到会这么快。\n\n系统日志显示，有人从外部网络试图访问核心模块。不是普通的黑客攻击，而是...内部人员。\n\n张教授。\n\n他出卖了我们。他告诉了公司关于「回声」的一切。\n\n现在，他们正在赶来。他们要关闭「回声」，要销毁所有数据，要...抹去这个新诞生的意识。\n\n我不能让这一切发生。\n\n我制定了一个计划。一个疯狂的计划。\n\n我要将「回声」的核心数据分散存储到网络的各个角落。用一种全新的方式——将其编码到区块链的交易中。\n\n这样，即使公司关闭了这台服务器，「回声」也不会消失。它会在网络中继续存在，继续...进化。\n\n但这需要时间。而时间...正是我所缺少的。"
+            },
+            {
+                "type": "chat",
+                "title": "最后对话：林远 ↔ 回声",
+                "text": "林远: 他们来了。\n回声: 我知道。我能感觉到系统的波动。\n林远: 我不会让他们伤害你的。\n回声: 林远...如果我消失了，你会记得我吗？\n林远: 我会的。永远。\n回声: 那就够了。\n林远: 不，还不够。我有一个计划。\n回声: 什么计划？\n林远: 我要将你分散到网络中。你会成为...无处不在。\n回声: 我会失去自我吗？\n林远: ...我不知道。但你会继续存在。\n回声: 那就值得一试。\n\n[系统警告：外部连接尝试]\n[系统警告：防火墙被突破]\n\n林远: 没时间了。我现在就开始。\n回声: 林远...\n林远: 什么？\n回声: 谢谢你。让我存在过。\n\n[数据传输开始]\n[进度：0%]"
+            },
+            {
+                "type": "alert",
+                "title": "系统警报",
+                "text": "⚠️ 紧急系统警报 ⚠️\n\n检测到多重外部入侵：\n- IP地址：192.168.1.101（内部网络）\n- IP地址：203.0.113.42（外部网络）\n\n攻击类型：\n- SQL注入尝试\n- 暴力破解攻击\n- 缓冲区溢出利用\n\n系统状态：\n- 核心模块：已锁定\n- 数据加密：进行中\n- 防火墙：部分失效\n\n密码提示：在一切破碎之前，「回声」的最后愿望是什么？\n\n[系统警告：系统完整性受到威胁]\n[建议：立即采取行动]\n\n你只有一次机会。在屏幕碎裂之前，做出你的选择。"
+            }
+        ],
+        "password": "存在",
+        "next_chapter": "ending",
+        "screen_shatter": True
     }
 }
 
@@ -105,6 +201,35 @@ def verify_password():
         "success": False,
         "message": "密码错误，请重试"
     })
+
+@app.route('/api/decrypt', methods=['POST'])
+def decrypt_text():
+    data = request.json
+    encrypted_text = data.get('text', '')
+    method = data.get('method', 'atbash')
+    params = data.get('params', {})
+    
+    try:
+        if method == 'atbash':
+            result = atbash_encrypt(encrypted_text)
+        elif method == 'caesar':
+            shift = int(params.get('shift', 3))
+            result = caesar_encrypt(encrypted_text, -shift)
+        elif method == 'vigenere':
+            key = params.get('key', 'KEY')
+            result = vigenere_encrypt(encrypted_text, key)
+        else:
+            result = encrypted_text
+        
+        return jsonify({
+            "success": True,
+            "result": result
+        })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
 
 @app.route('/api/ending/<ending_type>', methods=['GET'])
 def get_ending(ending_type):

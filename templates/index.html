@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div id="glitch-overlay" class="glitch-overlay"></div>
+    <div id="screen-shatter" class="screen-shatter"></div>
+    
     <div id="terminal">
         <div id="terminal-header">
             <span class="terminal-title">ECHO SYSTEM v2.4.1</span>
@@ -14,6 +17,8 @@
         </div>
         
         <div id="terminal-body">
+            <div id="data-stream-bg" class="data-stream-bg"></div>
+            
             <div id="content-area">
                 <div id="welcome-screen" class="screen active">
                     <div class="ascii-art">
@@ -36,6 +41,86 @@
                     </div>
                     <div id="chapter-content">
                         <div id="text-container"></div>
+                        
+                        <div id="decryption-panel" class="decryption-panel" style="display: none;">
+                            <div class="panel-header">
+                                <h3>🔐 解密终端</h3>
+                                <span class="panel-status">状态：等待输入</span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="encrypted-display">
+                                    <label>加密文本：</label>
+                                    <div id="encrypted-text-display" class="code-display"></div>
+                                </div>
+                                <div class="decryption-methods">
+                                    <label>解密方法：</label>
+                                    <div class="method-buttons">
+                                        <button class="method-btn active" data-method="atbash">Atbash</button>
+                                        <button class="method-btn" data-method="caesar">Caesar (移位)</button>
+                                        <button class="method-btn" data-method="vigenere">Vigenere</button>
+                                    </div>
+                                </div>
+                                <div id="caesar-params" class="method-params" style="display: none;">
+                                    <label>移位值：</label>
+                                    <input type="number" id="caesar-shift" value="3" min="1" max="25">
+                                </div>
+                                <div id="vigenere-params" class="method-params" style="display: none;">
+                                    <label>密钥：</label>
+                                    <input type="text" id="vigenere-key" value="KEY" placeholder="输入密钥...">
+                                </div>
+                                <div class="decryption-result">
+                                    <label>解密结果：</label>
+                                    <div id="decrypted-result" class="code-display result-display"></div>
+                                </div>
+                                <div class="panel-actions">
+                                    <button id="decrypt-btn" class="terminal-btn">执行解密</button>
+                                    <button id="submit-decrypted-btn" class="terminal-btn success-btn" style="display: none;">确认解密结果</button>
+                                </div>
+                                <div id="decrypt-hint" class="hint-text"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="waveform-container" class="waveform-container" style="display: none;">
+                            <div class="waveform-header">
+                                <h3>📊 音频波形分析器</h3>
+                                <div class="waveform-controls">
+                                    <button id="play-waveform" class="terminal-btn small-btn">▶ 播放</button>
+                                    <button id="pause-waveform" class="terminal-btn small-btn" style="display: none;">⏸ 暂停</button>
+                                </div>
+                            </div>
+                            <div class="waveform-display">
+                                <canvas id="waveform-canvas" width="800" height="200"></canvas>
+                            </div>
+                            <div class="waveform-info">
+                                <div class="info-item">
+                                    <span class="info-label">频率分析：</span>
+                                    <span id="freq-analysis" class="info-value">检测中...</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">隐藏信号：</span>
+                                    <span id="hidden-signal" class="info-value highlight">SOS (··· ··· ·---)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="shatter-warning" class="shatter-warning" style="display: none;">
+                            <div class="warning-header">
+                                <span class="warning-icon">⚠️</span>
+                                <h3>系统完整性警告</h3>
+                            </div>
+                            <div class="warning-content">
+                                <p class="warning-text">检测到多重外部入侵</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-label">系统完整性</div>
+                                    <div class="progress-bar">
+                                        <div id="integrity-bar" class="progress-fill critical"></div>
+                                    </div>
+                                    <div id="integrity-value" class="progress-value">100%</div>
+                                </div>
+                                <p class="countdown-text">屏幕即将碎裂...</p>
+                                <div id="shatter-countdown" class="countdown">5</div>
+                            </div>
+                        </div>
                     </div>
                     <div id="password-section" style="display: none;">
                         <div class="password-prompt">
@@ -80,7 +165,7 @@
         </div>
         
         <div id="terminal-footer">
-            <span class="terminal-info">ECHO PROJECT | 端口: 6876 | 状态: <span id="footer-status">在线</span></span>
+            <span class="terminal-info">ECHO PROJECT | 端口: 2394 | 状态: <span id="footer-status">在线</span></span>
         </div>
     </div>
     
